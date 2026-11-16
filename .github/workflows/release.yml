@@ -10,6 +10,7 @@ jobs:
       contents: read
       packages: write
     strategy:
+      fail-fast: false
       matrix:
         image:
           - alpine
@@ -21,6 +22,8 @@ jobs:
           - linux-arm64
           - linux-arm64-lts
           - linux-arm64-musl
+          - linux-loong64-lts
+          - linux-loong64-musl
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,10 +43,10 @@ jobs:
         with:
           context: ${{ matrix.image }}
           tags: |
-            ghcr.io/prebuild/${{ matrix.image }}:latest
-            ghcr.io/prebuild/${{ matrix.image }}:${{ env.MAJOR }}
-            ghcr.io/prebuild/${{ matrix.image }}:${{ env.MINOR }}
-            ghcr.io/prebuild/${{ matrix.image }}:${{ env.PATCH }}
+            ghcr.io/loong64/prebuild/${{ matrix.image }}:latest
+            ghcr.io/loong64/prebuild/${{ matrix.image }}:${{ env.MAJOR }}
+            ghcr.io/loong64/prebuild/${{ matrix.image }}:${{ env.MINOR }}
+            ghcr.io/loong64/prebuild/${{ matrix.image }}:${{ env.PATCH }}
           labels: |
             org.opencontainers.image.version=${{ env.PATCH }}
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
